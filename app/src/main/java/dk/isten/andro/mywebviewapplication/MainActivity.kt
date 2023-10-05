@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity() {
                     Column(
                         modifier = Modifier.fillMaxSize()
                     ) {
-                        Greeting("Android")
+                        Greeting()
                         MyWeb()
                     }
                 }
@@ -82,11 +82,6 @@ private fun MyWeb() {
             request: WebResourceRequest?,
         ): Boolean {
             return false
-
-        }
-
-        override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
-            super.onPageStarted(view, url, favicon)
 
         }
 
@@ -121,10 +116,7 @@ private fun MyWeb() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    var night = remember { mutableStateOf(false) }
-    val activity = LocalContext.current.findActivity()
-    Log.d("Svend night ", "${night.value}")
+fun Greeting(modifier: Modifier = Modifier) {
     Button(onClick = {
     }) {
         Text(
@@ -138,7 +130,7 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 @Composable
 fun GreetingPreview() {
     MyWebViewApplicationTheme {
-        Greeting("Android")
+        Greeting()
     }
 }
 
@@ -147,11 +139,3 @@ private const val webContent = "<html><head></head><body><p>Hej Svend</p></body>
 const val FALLBACK_CSS =
     "const isDarkMode = window.matchMedia && ('(prefers-color-scheme: dark)').matches; console.log(isDarkMode);var themeStyles = '@media (prefers-color-scheme: dark){ body { color: #FFFF00;    background: #0000FF; } }';var cssTheme = document.createElement('style');cssTheme.innerText = themeStyles;document.head.appendChild(cssTheme);"
 
-fun Context.findActivity(): Activity {
-    var context = this
-    while (context is ContextWrapper) {
-        if (context is Activity) return context
-        context = context.baseContext
-    }
-    throw IllegalStateException("Activity not found.")
-}
