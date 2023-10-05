@@ -54,36 +54,6 @@ class MainActivity : AppCompatActivity() {
 
         setContent {
             MyWebViewApplicationTheme {
-//                val activity = LocalContext.current.findActivity()
-//                val dark = isSystemInDarkTheme()
-//                val currentNightMode = configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
-//                when (currentNightMode) {
-//                    Configuration.UI_MODE_NIGHT_NO -> {} // Night mode is not active, we're using the light theme.
-//                    Configuration.UI_MODE_NIGHT_YES -> {} // Night mode is active, we're using dark theme.
-//                }
-//
-//                Log.d("Svend compose dark ", isSystemInDarkTheme().toString())
-//                Log.d("Svend system dark ", "${AppCompatDelegate.getDefaultNightMode()==AppCompatDelegate.MODE_NIGHT_YES}")
-//                if (!isSystemInDarkTheme() && isSystemInDarkTheme() != (AppCompatDelegate.getDefaultNightMode()==AppCompatDelegate.MODE_NIGHT_YES)) {
-//                    Log.d("Svend isSystemInDarkTheme ", "$dark")
-//                    Log.d("Svend getSystemFaultTheme ", "${AppCompatDelegate.getDefaultNightMode()==AppCompatDelegate.MODE_NIGHT_YES}")
-//
-//                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-//                    uiManager.setApplicationNightMode(UiModeManager.MODE_NIGHT_YES)
-//
-////                    recreate(activity)
-//
-//                } else {
-//                    Log.d("Svend isSystemInDarkTheme ", "$dark")
-//                    Log.d("Svend getSystemFaultTheme ", "${AppCompatDelegate.getDefaultNightMode()==AppCompatDelegate.MODE_NIGHT_YES}")
-//
-//                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-//                    uiManager.setApplicationNightMode(UiModeManager.MODE_NIGHT_NO)
-//
-////                    recreate(activity)
-//
-//                }
-
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
@@ -117,22 +87,17 @@ private fun MyWeb() {
 
         override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
             super.onPageStarted(view, url, favicon)
+
+        }
+
+        override fun onPageFinished(view: WebView?, url: String?) {
+            super.onPageFinished(view, url)
             view?.evaluateJavascript(
                 FALLBACK_CSS,
                 null
             )
         }
-
-        override fun onPageFinished(view: WebView?, url: String?) {
-            super.onPageFinished(view, url)
-
-        }
     }
-
-    val darkTheme = isSystemInDarkTheme()
-    val darkThemeLegacy =
-        AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES
-
 
     WebView(
         modifier = Modifier
@@ -145,15 +110,9 @@ private fun MyWeb() {
                 javaScriptEnabled = true
                 mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
 
-//                if (WebViewFeature.isFeatureSupported(WebViewFeature.ALGORITHMIC_DARKENING)) {
-//                    WebSettingsCompat.setAlgorithmicDarkeningAllowed(this, true);
-//                }
-
-                if (WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK_STRATEGY)) {
-                    WebSettingsCompat.setForceDarkStrategy(
-                        this,
-                        DARK_STRATEGY_PREFER_WEB_THEME_OVER_USER_AGENT_DARKENING
-                    )                }
+                if (WebViewFeature.isFeatureSupported(WebViewFeature.ALGORITHMIC_DARKENING)) {
+                    WebSettingsCompat.setAlgorithmicDarkeningAllowed(this, true);
+                }
             }
         },
         captureBackPresses = false,
@@ -186,7 +145,7 @@ fun GreetingPreview() {
 private const val webContent = "<html><head></head><body><p>Hej Svend</p></body></html>"
 
 const val FALLBACK_CSS =
-    "const isDarkMode = window.matchMedia && ('(prefers-color-scheme: dark)').matches; console.log(isDarkMode);var themeStyles = '@media (prefers-color-scheme: dark){ body { color: yellow;    background: #383838; } }';var cssTheme = document.createElement('style');cssTheme.innerText = themeStyles;document.head.appendChild(cssTheme);"
+    "const isDarkMode = window.matchMedia && ('(prefers-color-scheme: dark)').matches; console.log(isDarkMode);var themeStyles = '@media (prefers-color-scheme: dark){ body { color: #FFFF00;    background: #0000FF; } }';var cssTheme = document.createElement('style');cssTheme.innerText = themeStyles;document.head.appendChild(cssTheme);"
 
 fun Context.findActivity(): Activity {
     var context = this
