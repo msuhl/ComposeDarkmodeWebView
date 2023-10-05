@@ -52,6 +52,7 @@ android {
 dependencies {
     implementation("com.google.accompanist:accompanist-webview:0.30.1")
     implementation ("androidx.webkit:webkit:1.8.0")
+    implementation ("com.google.android.material:material:1.9.0")
 
 
     implementation("androidx.core:core-ktx:1.12.0")
